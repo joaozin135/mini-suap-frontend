@@ -4,6 +4,7 @@ import { Dashboard } from "./pages/dashboard";
 import { Called } from "./pages/called/index.tsx";
 import { Report } from "./pages/report/index.tsx";
 import { Login } from "./pages/login/index.tsx";
+import { NewCalled } from "./pages/NewCalled/index.tsx";
 
 function App() {
   return (
@@ -16,7 +17,9 @@ function App() {
 
           <Route path="/chamados" element={<Called />} />
 
-          <Route path="relatorios" element={<Report />} />
+          <Route path="/novochamado" element={<NewCalled />} />
+
+          <Route path="/relatorios" element={<Report />} />
         </Routes>
       </main>
     </div>
