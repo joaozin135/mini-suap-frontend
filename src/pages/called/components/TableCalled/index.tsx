@@ -1,5 +1,5 @@
 
-interface {
+interface TableCalledProps {
     text: string
 }
 
