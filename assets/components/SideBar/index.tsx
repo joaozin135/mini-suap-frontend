@@ -17,8 +17,8 @@ export function SideBar({ text }: SideBarProps){
                         <ButtonMassa
                             icon={LucideHouse}
                             text="Dashboard"
-                            to="/"
-                            data-active={pathname === "/"}
+                            to="/dashboard"
+                            data-active={pathname === "/Dashboard"}
                             className="data-[active=true]:bg-white/10"
                         />
                         <ButtonMassa 
