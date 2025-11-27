@@ -1,4 +1,4 @@
-import { useState, type FormEvent, type FormEventHandler } from "react";
+import { useState } from "react";
 
 export function Login() {
   const [loading, setLoading] = useState(false);
@@ -23,7 +23,6 @@ export function Login() {
         }
         return response.json();
       })
-      .then((actualData) => {})
       .catch((err) => {
         alert(err.response.data.message);
       })
