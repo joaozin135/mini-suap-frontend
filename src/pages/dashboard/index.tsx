@@ -8,9 +8,9 @@ export function Dashboard (){
     return(
         <main className="flex items-start size-full bg-[#F6F9FC]">
             <SideBar text="Mini Suap"/>
-            <aside className="size-full p-4">
+            <aside className="size-full">
                 <Navbar />
-                <section className="space-y-12">
+                <section className="space-y-12 p-4">
                     <article className="space-y-8">
                         <h1 className="font-bold text-3xl">Tela inicial</h1>
                         <div id="card-row" className="flex justify-start gap-8 items-start">
