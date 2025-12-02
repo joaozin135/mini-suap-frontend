@@ -1,4 +1,4 @@
-import { LucideHouse, LucidePhone, LucideSquareChartGantt } from "lucide-react"
+import { LucideCirclePlus, LucideHouse, LucidePhone } from "lucide-react"
 import { ButtonMassa } from "../Button"
 import { useLocation } from "react-router-dom";
 
@@ -18,7 +18,7 @@ export function SideBar({ text }: SideBarProps){
                             icon={LucideHouse}
                             text="Dashboard"
                             to="/dashboard"
-                            data-active={pathname === "/Dashboard"}
+                            data-active={pathname === "/dashboard"}
                             className="data-[active=true]:bg-white/10"
                         />
                         <ButtonMassa 
@@ -29,10 +29,10 @@ export function SideBar({ text }: SideBarProps){
                             className="data-[active=true]:bg-white/10"
                         />
                         <ButtonMassa 
-                            icon={LucideSquareChartGantt}
-                            text="Relatórios"
-                            to="/relatorios"
-                            data-active={pathname === "/relatorios"}
+                            icon={LucideCirclePlus}
+                            text="Novo Chamado"
+                            to="/novochamado"
+                            data-active={pathname === "/novochamado"}
                             className="data-[active=true]:bg-white/10"
                         />
                     </div>
