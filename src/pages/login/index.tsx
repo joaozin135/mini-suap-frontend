@@ -32,7 +32,7 @@ export function Login() {
   };
 
   return (
-    <main className="flex bg-[#1C385B] size-full min-h-dvh justify-center items-center">
+    <main className="flex bg-background size-full min-h-dvh justify-center items-center">
       <div className="bg-white gap-12 flex flex-col p-6 rounded-2xl max-w-lg h-129 size-full items-center text-center">
         <div className="flex flex-col gap-4 justify-around items-center  text-center">
           <h1 className="font-Regular text-5xl text-[#1C385B]">Mini SUAP</h1>

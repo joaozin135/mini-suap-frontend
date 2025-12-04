@@ -10,7 +10,7 @@ interface SideBarProps {
 export function SideBar({ text }: SideBarProps){
     const {pathname} = useLocation()
     return(
-        <aside className="bg-[#1C385B] size-full min-h-dvh flex flex-col gap-8 max-w-72 text-white p-4">
+        <aside className="bg-background size-full min-h-dvh flex flex-col gap-8 max-w-72 text-white p-4">
                 <h1 className="font-semibold text-3xl text-center">{text}</h1>
                 <article className="flex flex-col gap-4 items-start">
                     <div id="buttons-side">
