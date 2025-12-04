@@ -11,7 +11,7 @@ export function Dashboard (){
             <aside className="size-full">
                 <Navbar />
                 <section className="space-y-12 p-4">
-                    <article className="space-y-8">
+                    <article className="space-y-8 p-4">
                         <h1 className="font-bold text-3xl">Tela inicial</h1>
                         <div id="card-row" className="flex justify-start gap-8 items-start">
                         <CardTop 
