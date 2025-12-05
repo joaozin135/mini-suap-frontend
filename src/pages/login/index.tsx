@@ -24,6 +24,10 @@ export function Login() {
         return response.json();
       })
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+      .then((actualData) => { })
+>>>>>>> Stashed changes
 =======
       .then((actualData) => { })
 >>>>>>> Stashed changes
