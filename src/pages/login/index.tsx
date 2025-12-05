@@ -10,7 +10,7 @@ export function Login() {
 
     setLoading(true);
 
-    await fetch(`http://localhost:3000/login`, {
+    await fetch(`http://localhost:3001/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json", // Essential for sending JSON data
@@ -23,14 +23,9 @@ export function Login() {
         }
         return response.json();
       })
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
+
       .then((actualData) => { })
->>>>>>> Stashed changes
-=======
       .then((actualData) => { })
->>>>>>> Stashed changes
       .catch((err) => {
         alert(err.response.data.message);
       })

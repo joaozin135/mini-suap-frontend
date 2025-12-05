@@ -21,7 +21,7 @@ export function NewCalled(){
     }
 
     async function CreateCalled(){
-        await api.post('/localhost:3001/api')
+        api.post('/api/service-calls')
     }
 
     return (
@@ -51,10 +51,10 @@ export function NewCalled(){
                                     (event) => setPrioridade(event.target.value)
                                 }>
                                     <option value="" disabled>Selecione uma opção</option>
-                                    <option value="Baixa">Baixa</option>
-                                    <option value="Normal">Normal</option>
-                                    <option value="Alta">Alta</option>
-                                    <option value="Urgente">Urgente</option>
+                                    <option value="baixa">Baixa</option>
+                                    <option value="normal">Normal</option>
+                                    <option value="alta">Alta</option>
+                                    <option value="urgente">Urgente</option>
                                     </select>
                             </div>
                             <div className="w-full flex flex-col">
@@ -79,11 +79,10 @@ export function NewCalled(){
                              <div className="w-full flex flex-col col-span-2">
                                 <label htmlFor="anexos">Anexos
 
-                                <div className="p-2 rounded-sm min-h-32 border-2 gap-2 border-dashed border-border items-center rounded-b-sm justify-center  flex flex-col">
+                                <div className="p-2 rounded-sm min-h-32 border-2 gap-2 border-dashed border-border items-center rounded-b-sm justify-center flex flex-col">
                                     <LucideUpload size={40}/>
                                     <h2>Clique para adicionar arquivos</h2>
                                 </div>
-
                                 <input type="file" accept="image/*" id="anexos" hidden />
                                 </label>
                             </div>
