@@ -5,7 +5,7 @@ export function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = async () => {
+  async function handleLogin() {
     if (!email.trim() || !password.trim()) return alert("Preencha os campos");
 
     setLoading(true);
@@ -23,13 +23,17 @@ export function Login() {
         }
         return response.json();
       })
+<<<<<<< Updated upstream
+=======
+      .then((actualData) => { })
+>>>>>>> Stashed changes
       .catch((err) => {
         alert(err.response.data.message);
       })
       .finally(() => {
         setLoading(false);
       });
-  };
+  }
 
   return (
     <main className="flex bg-background size-full min-h-dvh justify-center items-center">
