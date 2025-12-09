@@ -3,8 +3,92 @@ import { SideBar } from "../../../assets/components/SideBar";
 import { CardTop } from "../../../assets/components/card";
 import { TableTop } from "./components/TableTop";
 import { Navbar } from "../../../assets/components/Navbar";
+import { useEffect, useState } from "react";
+import api from "../../lib/api";
+import { isAxiosError } from "axios";
+
+function useDashboardData(){
+    const [isLoadingAllCalls, setIsLoadingAllCalls] = useState(false)
+    const [allCalls, setAllCalls] = useState<number | null>(null)
+    const [errorAllCalls, setErrorAllCalls] = useState<string | null>(null)
+
+    const loadAllCalls = async () => {
+        setIsLoadingAllCalls(true)
+        try{
+            const res = await api.get('/service-calls/getAllCalls')
+            return setAllCalls(res.data)
+        }
+        catch(err:unknown){
+            if(isAxiosError(err) && err.response?.data){
+                setErrorAllCalls(err.response.data.message)
+            }
+        }finally{
+            setIsLoadingAllCalls(false)
+        }
+    }
+
+    const [isLoadingOpenedCalls, setIsLoadingOpenedCalls] = useState(false)
+    const [openedCalls, setOpenedCalls] = useState<number | null>(null)
+    const [errorOpenedCalls, setErrorOpenedCalls] = useState<string | null>(null)
+
+    const loadOpenedCalls = async () => {
+        setIsLoadingOpenedCalls(true)
+        try{
+            const res = await api.get('/service-calls/getOpenedCalls')
+            return setOpenedCalls(res.data)
+        }
+        catch(err:unknown){
+            if(isAxiosError(err) && err.response?.data){
+                setErrorOpenedCalls(err.response.data.message)
+            }
+        }finally{
+            setIsLoadingOpenedCalls(false)
+        }
+    }
+
+    const [isLoadingInProgressCalls, setIsLoadingInProgressCalls] = useState(false)
+    const [inProgressCalls, setInProgressCalls] = useState<number | null>(null)
+    const [errorInProgressCalls, setErrorInProgressCalls] = useState<string | null>(null)
+
+    const loadInProgressCalls = async () => {
+        setIsLoadingInProgressCalls(true)
+        try{
+            const res = await api.get('/service-calls/getInProgressCalls')
+            return setInProgressCalls(res.data)
+        }
+        catch(err:unknown){
+            if(isAxiosError(err) && err.response?.data){
+                setErrorInProgressCalls(err.response.data.message)
+            }
+        }finally{
+            setIsLoadingInProgressCalls(false)
+        }
+    }
+
+    useEffect(() => {
+        loadAllCalls()
+        loadOpenedCalls()
+        loadInProgressCalls()
+    },[])
+
+    return {
+        allCalls, 
+        isLoadingAllCalls, 
+        errorAllCalls, 
+        openedCalls, 
+        isLoadingOpenedCalls, 
+        errorOpenedCalls,
+        inProgressCalls,
+        isLoadingInProgressCalls,
+        errorInProgressCalls
+    }
+}
+
 
 export function Dashboard (){
+
+    const {allCalls, openedCalls, inProgressCalls} = useDashboardData()
+
     return(
         <main className="flex items-start size-full bg-[#F6F9FC]">
             <SideBar text="Mini Suap"/>
@@ -21,28 +105,28 @@ export function Dashboard (){
                             className="bg-white" 
                             icon={LucideCircleAlert}
                             text="Total de Chamados"
-                            value="17"
+                            value={String(allCalls || 0)}
                             description="+12% comparado ao último mês"
                         />
                         <CardTop 
                             className="bg-white"
                             icon={LucideUserRound}
                             text="Chamados Abertos"
-                            value="29"
+                            value={String(openedCalls || 0)}
                             description="-7% comparado ao último mês"
                         />
                         <CardTop 
                             className="bg-white"
                             icon={LucideUserRound}
                             text="Resolvidos Hoje"
-                            value="29"
+                            value="0"
                             description="+8% comparado ao último mês"
                         />
                         <CardTop 
                             className="bg-white"
                             icon={LucideUserRound}
                             text="Chamados em andamento"
-                            value="29"
+                            value={String(inProgressCalls || 0)}
                             description="+5% comparado ao última semana"
                         />
                         </div>
