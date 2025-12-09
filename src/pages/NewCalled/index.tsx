@@ -108,7 +108,7 @@ export function NewCalled() {
                         <h2 className="text-[#797979]">Como podemos te ajudar hoje?</h2>
                     </div>
 
-                    <div className="border-2 border-border flex flex-col p-8 rounded-lg">
+                    <div className="border-2 border-border flex flex-col p-8 rounded-lg bg-white">
                         <h1>Detalhes do Chamado</h1>
 
                         <div className="grid sm:grid-cols-2 grid-cols-1 p-4 gap-4">
