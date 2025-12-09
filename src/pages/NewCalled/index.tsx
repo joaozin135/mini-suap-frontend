@@ -1,10 +1,46 @@
 import { SideBar } from "../../../assets/components/SideBar";
 import { Navbar } from "../../../assets/components/Navbar";
 import { LucideUpload } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../../lib/api";
+import { isAxiosError } from "axios";
 
+interface Categoria {
+    id:string;
+    name:string;
+    description: string;
+}
+function useCategorias(){
+    const [isLoading, setIsLoading] = useState(false)
+    const [categoriasExistentes, setCategoriasExistentes] = useState<Array<Categoria>>([])
+    const [error, setError] = useState<string | null>(null)
+
+    const loadCategorias = async () => {
+        setIsLoading(true)
+        try{
+            const res = await api.get('/categories')
+            return setCategoriasExistentes(res.data)
+        }
+        catch(err:unknown){
+            if(isAxiosError(err) && err.response?.data){
+                setError(err.response.data.message)
+            }
+        }finally{
+            setIsLoading(false)
+        }
+    }
+
+    useEffect(() => {
+        loadCategorias()
+    },[])
+
+    return {categoriasExistentes, isLoading, error}
+}
 export function NewCalled() {
+
+
+    const {categoriasExistentes, isLoading:isLoadingCategorias, error: errorOnLoadCategories} = useCategorias()
 
     const [assunto, setAssunto] = useState<string>("");
     const [prioridade, setPrioridade] = useState<string>("");
@@ -105,6 +141,7 @@ export function NewCalled() {
                                 </select>
                             </div>
 
+                            {isLoadingCategorias ? <h3>Carregando categorias...</h3>: errorOnLoadCategories ? <h3>Erro ao carregar categorias...</h3> :
                             <div className="w-full flex flex-col">
                                 <label htmlFor="categoria">Categoria</label>
                                 <select
@@ -114,13 +151,12 @@ export function NewCalled() {
                                     onChange={(event) => setCategoria(event.target.value)}
                                 >
                                     <option value="" disabled>Selecione uma opção</option>
-                                    <option value="Redes">Redes</option>
-                                    <option value="Sistemas Operacionais">Sistemas Operacionais</option>
-                                    <option value="Software de Gestão">Software de Gestão</option>
-                                    <option value="Hardware">Hardware</option>
-                                    <option value="Impressoras">Impressoras</option>
+                                    {categoriasExistentes.map((categoria) => {
+                                        return <option value={categoria.id}>{categoria.name}</option>
+                                    })}
                                 </select>
                             </div>
+                            }
 
                             <div className="w-full flex flex-col col-span-2">
                                 <label htmlFor="descricao">Descrição</label>
