@@ -1,6 +1,37 @@
 import { LucideCircleCheck, LucideSquarePen, LucideTrash } from "lucide-react"
 import { Navbar } from "../../../assets/components/Navbar"
 import { SideBar } from "../../../assets/components/SideBar"
+import { useEffect, useState } from "react"
+import { isAxiosError } from "axios"
+import api from "../../lib/api"
+
+
+function Calls(){
+    const [isLoadingCalls, setIsLoadingCalls] = useState(false)
+    const [chamadosExistentes, setChamadosExistentes] = useState<Array<Calls>>([])
+    const [errorCalls, setErrorCalls] = useState<string | null>(null)
+
+    const loadCalls = async () => {
+        setIsLoadingCalls(true)
+        try{
+            const res = await api.get('/service-calls')
+            return setChamadosExistentes(res.data)
+        }
+        catch(err:unknown){
+            if(isAxiosError(err) && err.response?.data){
+                setErrorCalls(err.response.data.message)
+            }
+        }finally{
+            setIsLoadingCalls(false)
+        }
+
+    }
+        useEffect(() => {
+                loadCalls()
+        },[])
+
+        return {chamadosExistentes, errorCalls, isLoadingCalls}
+}
 
 export function Called(){
     return(
