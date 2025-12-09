@@ -97,11 +97,27 @@ export function NewCalled() {
         }
     }
 
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     return (
+        
         <main className="flex items-start size-full bg-[#F6F9FC]">
-            <SideBar text="Mini Suap" />
+            <div className="hidden md:block">
+                <SideBar text="Mini Suap" />
+            </div>
+
+            {isSidebarOpen && (
+        <div className="fixed inset-0 bg-opacity-40 z-40 md:hidden"
+             onClick={() => setIsSidebarOpen(false)}>
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="absolute left-0 top-0 h-full w-64 bg-white shadow-xl z-50 animate-slideRight"
+          >
+            <SideBar text="Mini Suap" onClose={() => setIsSidebarOpen(false)} />
+          </div>
+        </div>
+      )}
             <aside className="size-full">
-                <Navbar />
+                <Navbar onMenuClick={() => setIsSidebarOpen(true)}/>
                 <div className="p-4 space-y-2">
                     <div>
                         <h1 className="font-bold text-3xl">Novo Chamado</h1>
