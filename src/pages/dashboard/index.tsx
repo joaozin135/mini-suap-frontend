@@ -7,138 +7,125 @@ import { useEffect, useState } from "react";
 import api from "../../lib/api";
 import { isAxiosError } from "axios";
 
-function useDashboardData(){
-    const [isLoadingAllCalls, setIsLoadingAllCalls] = useState(false)
-    const [allCalls, setAllCalls] = useState<number | null>(null)
-    const [errorAllCalls, setErrorAllCalls] = useState<string | null>(null)
+function useDashboardData() {
+  const [isLoadingAllCalls, setIsLoadingAllCalls] = useState(false);
+  const [allCalls, setAllCalls] = useState<number | null>(null);
 
-    const loadAllCalls = async () => {
-        setIsLoadingAllCalls(true)
-        try{
-            const res = await api.get('/service-calls/getAllCalls')
-            return setAllCalls(res.data)
-        }
-        catch(err:unknown){
-            if(isAxiosError(err) && err.response?.data){
-                setErrorAllCalls(err.response.data.message)
-            }
-        }finally{
-            setIsLoadingAllCalls(false)
-        }
-    }
+  const [isLoadingOpenedCalls, setIsLoadingOpenedCalls] = useState(false);
+  const [openedCalls, setOpenedCalls] = useState<number | null>(null);
 
-    const [isLoadingOpenedCalls, setIsLoadingOpenedCalls] = useState(false)
-    const [openedCalls, setOpenedCalls] = useState<number | null>(null)
-    const [errorOpenedCalls, setErrorOpenedCalls] = useState<string | null>(null)
+  const [isLoadingInProgressCalls, setIsLoadingInProgressCalls] = useState(false);
+  const [inProgressCalls, setInProgressCalls] = useState<number | null>(null);
 
-    const loadOpenedCalls = async () => {
-        setIsLoadingOpenedCalls(true)
-        try{
-            const res = await api.get('/service-calls/getOpenedCalls')
-            return setOpenedCalls(res.data)
-        }
-        catch(err:unknown){
-            if(isAxiosError(err) && err.response?.data){
-                setErrorOpenedCalls(err.response.data.message)
-            }
-        }finally{
-            setIsLoadingOpenedCalls(false)
-        }
-    }
+  useEffect(() => {
+    const load = async () => {
+      try {
+        setIsLoadingAllCalls(true);
+        const all = await api.get("/service-calls/getAllCalls");
+        setAllCalls(all.data);
 
-    const [isLoadingInProgressCalls, setIsLoadingInProgressCalls] = useState(false)
-    const [inProgressCalls, setInProgressCalls] = useState<number | null>(null)
-    const [errorInProgressCalls, setErrorInProgressCalls] = useState<string | null>(null)
+        setIsLoadingOpenedCalls(true);
+        const open = await api.get("/service-calls/getOpenedCalls");
+        setOpenedCalls(open.data);
 
-    const loadInProgressCalls = async () => {
-        setIsLoadingInProgressCalls(true)
-        try{
-            const res = await api.get('/service-calls/getInProgressCalls')
-            return setInProgressCalls(res.data)
-        }
-        catch(err:unknown){
-            if(isAxiosError(err) && err.response?.data){
-                setErrorInProgressCalls(err.response.data.message)
-            }
-        }finally{
-            setIsLoadingInProgressCalls(false)
-        }
-    }
+        setIsLoadingInProgressCalls(true);
+        const prog = await api.get("/service-calls/getInProgressCalls");
+        setInProgressCalls(prog.data);
+      } catch (err: unknown) {
+        if (isAxiosError(err)) console.log(err.response?.data);
+      } finally {
+        setIsLoadingAllCalls(false);
+        setIsLoadingOpenedCalls(false);
+        setIsLoadingInProgressCalls(false);
+      }
+    };
 
-    useEffect(() => {
-        loadAllCalls()
-        loadOpenedCalls()
-        loadInProgressCalls()
-    },[])
+    load();
+  }, []);
 
-    return {
-        allCalls, 
-        isLoadingAllCalls, 
-        errorAllCalls, 
-        openedCalls, 
-        isLoadingOpenedCalls, 
-        errorOpenedCalls,
-        inProgressCalls,
-        isLoadingInProgressCalls,
-        errorInProgressCalls
-    }
+  return { allCalls, openedCalls, inProgressCalls };
 }
 
+export function Dashboard() {
+  const { allCalls, openedCalls, inProgressCalls } = useDashboardData();
 
-export function Dashboard (){
+  // 🔥 controle mobile da sidebar
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-    const {allCalls, openedCalls, inProgressCalls} = useDashboardData()
+  return (
+    <main className="flex w-full min-h-screen bg-[#F6F9FC] relative">
 
-    return(
-        <main className="flex items-start size-full bg-[#F6F9FC]">
-            <SideBar text="Mini Suap"/>
-            <aside className="size-full flex flex-col">
-                <Navbar />
-                <section className="p-4">
-                    <div>    
-                        <h1 className="font-bold text-3xl">Tela inicial</h1>
-                        <h2 className="text-[#797979]">Bem vindo ao Mini Suap!</h2>
-                    </div>
-                    <div className="space-y-2 p-4 flex flex-col">
-                        <div id="card-row" className="grid auto-rows-min gap-4 md:grid-cols-4 items-start space-y-4">
-                        <CardTop
-                            className="bg-white" 
-                            icon={LucideCircleAlert}
-                            text="Total de Chamados"
-                            value={String(allCalls || 0)}
-                            description="+12% comparado ao último mês"
-                        />
-                        <CardTop 
-                            className="bg-white"
-                            icon={LucideUserRound}
-                            text="Chamados Abertos"
-                            value={String(openedCalls || 0)}
-                            description="-7% comparado ao último mês"
-                        />
-                        <CardTop 
-                            className="bg-white"
-                            icon={LucideUserRound}
-                            text="Resolvidos Hoje"
-                            value="0"
-                            description="+8% comparado ao último mês"
-                        />
-                        <CardTop 
-                            className="bg-white"
-                            icon={LucideUserRound}
-                            text="Chamados em andamento"
-                            value={String(inProgressCalls || 0)}
-                            description="+5% comparado ao última semana"
-                        />
-                        </div>
-                    </div> 
-                    <article className="space-y-4 items-center">
-                        <h1 className="text-2xl font-semibold">Chamados recentes</h1>
-                        <TableTop />
-                        
-                    </article>
-                </section>
-                
-            </aside>
-        </main>
-    )
+      {/* 🔥 Sidebar desktop */}
+      <div className="hidden md:block">
+        <SideBar text="Mini Suap" />
+      </div>
+
+      {/* 🔥 Sidebar overlay mobile */}
+      {isSidebarOpen && (
+        <div className="fixed inset-0 bg-opacity-40 z-40 md:hidden"
+             onClick={() => setIsSidebarOpen(false)}>
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="absolute left-0 top-0 h-full w-64 bg-white shadow-xl z-50 animate-slideRight"
+          >
+            <SideBar text="Mini Suap" onClose={() => setIsSidebarOpen(false)} />
+          </div>
+        </div>
+      )}
+
+      <aside className="flex flex-col w-full">
+
+        {/* Navbar controla Sidebar */}
+        <Navbar onMenuClick={() => setIsSidebarOpen(true)} />
+
+        <section className="p-4 space-y-6">
+          <div>
+            <h1 className="font-bold text-2xl md:text-3xl">Tela inicial</h1>
+            <h2 className="text-[#797979] text-sm md:text-base">
+              Bem vindo ao Mini Suap!
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <CardTop
+              className="bg-white"
+              icon={LucideCircleAlert}
+              text="Total de Chamados"
+              value={String(allCalls || 0)}
+              description="+12% comparado ao último mês"
+            />
+            <CardTop
+              className="bg-white"
+              icon={LucideUserRound}
+              text="Chamados Abertos"
+              value={String(openedCalls || 0)}
+              description="-7% comparado ao último mês"
+            />
+            <CardTop
+              className="bg-white"
+              icon={LucideUserRound}
+              text="Resolvidos Hoje"
+              value="0"
+              description="+8% comparado ao último mês"
+            />
+            <CardTop
+              className="bg-white"
+              icon={LucideUserRound}
+              text="Chamados em andamento"
+              value={String(inProgressCalls || 0)}
+              description="+5% comparado à última semana"
+            />
+          </div>
+
+          <article className="space-y-3">
+            <h1 className="text-xl md:text-2xl font-semibold">Chamados recentes</h1>
+
+            <div className="w-full overflow-x-auto rounded-lg">
+              <TableTop />
+            </div>
+          </article>
+        </section>
+      </aside>
+    </main>
+  );
 }
