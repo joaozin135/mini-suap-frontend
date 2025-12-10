@@ -106,9 +106,9 @@ export function NewCalled() {
             </div>
 
             {isSidebarOpen && (
-        <div className="fixed inset-0 bg-opacity-40 z-40 md:hidden"
-             onClick={() => setIsSidebarOpen(false)}>
-          <div
+            <div className="fixed inset-0 bg-opacity-40 z-40 md:hidden"
+                onClick={() => setIsSidebarOpen(false)}>
+            <div
             onClick={(e) => e.stopPropagation()}
             className="absolute left-0 top-0 h-full w-64 bg-white shadow-xl z-50 animate-slideRight"
           >
