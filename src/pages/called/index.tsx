@@ -58,7 +58,6 @@ export function Called() {
         <SideBar text="Mini Suap" />
       </div>
 
-      {/* 🔥 Sidebar overlay mobile */}
       {isSidebarOpen && (
         <div className="fixed inset-0 bg-opacity-40 z-40 md:hidden"
              onClick={() => setIsSidebarOpen(false)}>
@@ -74,7 +73,6 @@ export function Called() {
         <Navbar onMenuClick={() => setIsSidebarOpen(true)} />
 
         <div className="p-4 space-y-6">
-          {/* Cabeçalho */}
           <div>
             <h1 className="font-bold text-2xl md:text-3xl">Chamados</h1>
             <h2 className="text-[#797979] text-sm md:text-base">
@@ -82,7 +80,6 @@ export function Called() {
             </h2>
           </div>
 
-          {/* Container principal */}
           <div className="bg-white w-full flex flex-col p-6 md:p-8 space-y-4 rounded-lg border border-border">
 
             {!isLoadingCalls && !errorCalls && (

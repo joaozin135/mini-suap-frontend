@@ -49,18 +49,15 @@ function useDashboardData() {
 export function Dashboard() {
   const { allCalls, openedCalls, inProgressCalls } = useDashboardData();
 
-  // 🔥 controle mobile da sidebar
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
   return (
     <main className="flex w-full min-h-screen bg-[#F6F9FC] relative">
 
-      {/* 🔥 Sidebar desktop */}
+
       <div className="hidden md:block">
         <SideBar text="Mini Suap" />
       </div>
 
-      {/* 🔥 Sidebar overlay mobile */}
       {isSidebarOpen && (
         <div className="fixed inset-0 bg-opacity-40 z-40 md:hidden"
              onClick={() => setIsSidebarOpen(false)}>
@@ -75,7 +72,7 @@ export function Dashboard() {
 
       <aside className="flex flex-col w-full">
 
-        {/* Navbar controla Sidebar */}
+
         <Navbar onMenuClick={() => setIsSidebarOpen(true)} />
 
         <section className="p-4 space-y-6">
