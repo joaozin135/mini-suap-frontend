@@ -53,7 +53,6 @@ export function Called() {
 
   return (
     <main className="flex w-full min-h-screen bg-[#F6F9FC]">
-
      <div className="hidden md:block">
         <SideBar text="Mini Suap" />
       </div>
@@ -69,7 +68,7 @@ export function Called() {
           </div>
         </div>
       )}
-      <aside className="flex-1 md:ml-64">
+      <aside className="flex flex-col w-full">
         <Navbar onMenuClick={() => setIsSidebarOpen(true)} />
 
         <div className="p-4 space-y-6">
